@@ -15,6 +15,7 @@ import { styled, alpha, useTheme } from "@mui/material/styles";
 import { faker } from "@faker-js/faker";
 import { ChatList } from "../../data";
 import { SimpleBarStyle } from "../../components/Scrollbar";
+import "../../components/global.css";
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: "#44b700",
@@ -158,12 +159,8 @@ const Chats = () => {
           </Stack>
           <Divider />
         </Stack>
-        <Stack
-          spacing={2}
-          direction="column"
-          sx={{ flexGrow: 1, overflow: "scroll", height: "100%" }}
-        >
-          <SimpleBarStyle timeout={500} clickOnTrack={false}>
+        <div className="scrollbar" style={{ overflowY: "auto" }}>
+          <Stack direction="column">
             <Stack spacing={2.4}>
               <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                 Pinned
@@ -180,8 +177,8 @@ const Chats = () => {
                 return <ChatElement {...el} />;
               })}
             </Stack>
-          </SimpleBarStyle>
-        </Stack>
+          </Stack>
+        </div>
       </Stack>
     </Box>
   );
