@@ -6,7 +6,7 @@ import Message from "./Message";
 import "../../components/global.css";
 const Conversation = () => {
   return (
-    <Stack height={"100%"} maxHeight={"100vh"} width={"auto"}>
+    <Stack height={"100%"} maxHeight={"100vh"} width={"100%"}>
       {/* Chat header */}
       <Header />
       {/*Msg */}
