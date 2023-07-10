@@ -12,7 +12,7 @@ const Conversation = () => {
       {/*Msg */}
       <div className="scrollbar" style={{ overflowY: "auto" }}>
         <Box width="100%">
-          <Message />
+          <Message menu={true} />
         </Box>
       </div>
       {/*Chat footer */}
