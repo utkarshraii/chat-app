@@ -95,7 +95,7 @@ const Settings = () => {
               width: 320,
               backgroundColor:
                 theme.palette.mode === "light"
-                  ? "F8FAFF"
+                  ? "#F8FAFF"
                   : theme.palette.background,
               boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
             }}
