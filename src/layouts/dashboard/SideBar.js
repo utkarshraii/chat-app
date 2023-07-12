@@ -25,6 +25,8 @@ const getPath = (index) => {
       return "/group";
     case 2:
       return "/call";
+    case 3:
+      return "/settings";
     default:
       break;
   }
