@@ -18,7 +18,7 @@ const NewPassword = () => {
       <NewPasswordForm />
       <Link
         component={RouterLink}
-        to="/auth/login"
+        to={"/auth/login"}
         color="inherit"
         variant="subtitle2"
         sx={{

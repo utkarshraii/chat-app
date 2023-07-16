@@ -16,6 +16,8 @@ import Logo from "../../assets/Images/logo.ico";
 import AntSwitch from "../../components/AntSwitch";
 import { faker } from "@faker-js/faker";
 import { useNavigate } from "react-router-dom";
+import { LogoutUser } from "../../redux/slices/auth";
+import { useDispatch } from "react-redux";
 
 const getPath = (index) => {
   switch (index) {
@@ -38,13 +40,13 @@ const getMenuPath = (index) => {
     case 1:
       return "/settings";
     case 2:
-      //TODO => Updste token and set isauth=false
       return "/auth/login";
     default:
       break;
   }
 };
 const SideBar = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
@@ -201,7 +203,12 @@ const SideBar = () => {
                 >
                   <Stack
                     onClick={() => {
-                      navigate(getMenuPath(idx));
+                      //If idx is 2 then dispatch logout
+                      if (idx === 2) {
+                        dispatch(LogoutUser());
+                      } else {
+                        navigate(getMenuPath(idx));
+                      }
                     }}
                     sx={{ width: 100 }}
                     direction="row"
