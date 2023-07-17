@@ -11,6 +11,9 @@ import { useTheme, styled } from "@mui/material/styles";
 import StyledBadge from "./StyledBadge";
 import { socket } from "../socket";
 import { Chat } from "phosphor-react";
+
+const user_id = window.localStorage.getItem("user_id");
+
 const StyledChatBox = styled(Box)(({ theme }) => ({
   "&:hover": {
     cursor: "pointer",
@@ -18,7 +21,6 @@ const StyledChatBox = styled(Box)(({ theme }) => ({
 }));
 
 const UserComponent = ({ firstName, lastName, _id, online, img }) => {
-  const user_id = window.localStorage.getItem("user_id");
   const theme = useTheme();
   const name = `${firstName} ${lastName}`;
   return (
@@ -149,6 +151,7 @@ const FriendComponent = ({ firstName, lastName, _id, online, img }) => {
           <IconButton
             onClick={() => {
               // start a new conversation
+              socket.emit("start_conversation", { to: _id, from: user_id });
             }}
           >
             <Chat />

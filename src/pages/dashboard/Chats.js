@@ -23,9 +23,24 @@ import {
 } from "../../components/Search";
 import ChatElement from "../../components/ChatElement";
 import Friends from "../../sections/main/Friends";
+import { useEffect } from "react";
+import { socket } from "../../socket";
+import { useSelector } from "react-redux";
+
+const user_id = window.localStorage.getItem("user_id");
+
 const Chats = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const theme = useTheme();
+
+  const { conversations } = useSelector(
+    (state) => state.conversation.direct_chat
+  );
+  useEffect(() => {
+    socket.emit("get_direct_conversations", { user_id }, (data) => {
+      // data => list of conversations
+    });
+  }, []);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -85,18 +100,20 @@ const Chats = () => {
           <div className="scrollbar" style={{ overflowY: "auto" }}>
             <Stack direction="column">
               <Stack spacing={2.4}>
-                <Typography variant="subtitle2" sx={{ color: "#676767" }}>
+                {/* <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                   Pinned
                 </Typography>
                 {ChatList.filter((el) => el.pinned).map((el) => {
                   return <ChatElement {...el} />;
-                })}
+                })} */}
                 <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                   All Chats
                 </Typography>
-                {ChatList.filter((el) => !el.pinned).map((el) => {
-                  return <ChatElement {...el} />;
-                })}
+                {conversations
+                  .filter((el) => !el.pinned)
+                  .map((el) => {
+                    return <ChatElement {...el} />;
+                  })}
               </Stack>
             </Stack>
           </div>
