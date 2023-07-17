@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import axios from "../../utils/axios";
+import { showSnackbar } from "./app";
 
 const initialState = {
   isLoading: false,
@@ -59,9 +60,14 @@ export function LoginUser(formValues) {
             token: response.data.token,
           })
         );
+
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
       })
       .catch(function (error) {
         console.log(error);
+        dispatch(showSnackbar({ severity: "error", message: error.message }));
       });
   };
 }
@@ -88,9 +94,13 @@ export function ForgotPassword(formValues) {
       )
       .then((response) => {
         console.log(response);
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
       })
       .catch((error) => {
         console.log(error);
+        dispatch(showSnackbar({ severity: "error", message: error.message }));
       });
   };
 }
@@ -115,9 +125,13 @@ export function NewPassword(formValues) {
             token: response.data.token,
           })
         );
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
       })
       .catch((error) => {
         console.log(error);
+        dispatch(showSnackbar({ severity: "error", message: error.message }));
       });
   };
 }
@@ -143,11 +157,15 @@ export function RegisterUser(formValues) {
           slice.actions.updateRegisterEmail({ email: formValues.email })
         );
         dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
+        dispatch(
           slice.actions.updateIsLoading({ isLoading: false, error: false })
         );
       })
       .catch((error) => {
         console.log(error);
+        dispatch(showSnackbar({ severity: "error", message: error.message }));
         dispatch(
           slice.actions.updateIsLoading({ isLoading: false, error: true })
         );
@@ -182,9 +200,13 @@ export function VerifyEmail(formValues) {
             token: response.data.token,
           })
         );
+        dispatch(
+          showSnackbar({ severity: "success", message: response.data.message })
+        );
       })
       .catch((error) => {
         console.log(error);
+        dispatch(showSnackbar({ severity: "error", message: error.message }));
       });
   };
 }
