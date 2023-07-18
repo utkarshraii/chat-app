@@ -1,14 +1,20 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import { useState } from "react";
 import * as Yup from "yup";
-import FormProvider from "../../components/hook-form/FormProvider";
-import { Button, Stack } from "@mui/material";
+// form
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+// @mui
+import { Stack, IconButton, InputAdornment, Button } from "@mui/material";
+// components
+import FormProvider from "../../components/hook-form/FormProvider";
+import { Eye, EyeSlash } from "phosphor-react";
 import RHFCodes from "../../components/hook-form/RHFCodes";
 import { useDispatch, useSelector } from "react-redux";
 import { VerifyEmail } from "../../redux/slices/auth";
+
+// ----------------------------------------------------------------------
+
 const VerifyForm = () => {
-  //email => get it from store
   const dispatch = useDispatch();
   const { email } = useSelector((state) => state.auth);
   const VerifyCodeSchema = Yup.object().shape({
@@ -35,11 +41,14 @@ const VerifyForm = () => {
     defaultValues,
   });
 
-  const { handleSubmit, formState } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = methods;
 
   const onSubmit = async (data) => {
     try {
-      //SEND API REQUEST
+      //   Send API Request
       dispatch(
         VerifyEmail({
           email,
@@ -50,37 +59,36 @@ const VerifyForm = () => {
       console.log(error);
     }
   };
+
   return (
-    <>
-      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={3}>
-          {/* CUSTOM OTP INPUT */}
-          <RHFCodes
-            keyName="code"
-            inputs={["code1", "code2", "code3", "code4", "code5", "code6"]}
-          />
-          <Button
-            fullWidth
-            color="inherit"
-            size="large"
-            type="submit"
-            variant="contained"
-            sx={{
+    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing={3}>
+        <RHFCodes
+          keyName="code"
+          inputs={["code1", "code2", "code3", "code4", "code5", "code6"]}
+        />
+
+        <Button
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          sx={{
+            mt: 3,
+            bgcolor: "text.primary",
+            color: (theme) =>
+              theme.palette.mode === "light" ? "common.white" : "grey.800",
+            "&:hover": {
               bgcolor: "text.primary",
               color: (theme) =>
                 theme.palette.mode === "light" ? "common.white" : "grey.800",
-              "&:hover": {
-                bgcolor: "text.primary",
-                color: (theme) =>
-                  theme.palette.mode === "light" ? "common.white" : "grey.800",
-              },
-            }}
-          >
-            Verify
-          </Button>
-        </Stack>
-      </FormProvider>
-    </>
+            },
+          }}
+        >
+          Verify
+        </Button>
+      </Stack>
+    </FormProvider>
   );
 };
 

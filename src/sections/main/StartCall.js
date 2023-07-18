@@ -1,12 +1,11 @@
+import React from "react";
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   Slide,
   Stack,
 } from "@mui/material";
-import React from "react";
 import {
   Search,
   SearchIconWrapper,
@@ -14,7 +13,8 @@ import {
 } from "../../components/Search";
 import { MagnifyingGlass } from "phosphor-react";
 import { CallElement } from "../../components/CallElement";
-import { MembersList } from "../../data";
+import { CallList } from "../../data";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -27,29 +27,29 @@ const StartCall = ({ open, handleClose }) => {
       open={open}
       TransitionComponent={Transition}
       keepMounted
-      sx={{ p: 4 }}
       onClose={handleClose}
+      aria-describedby="alert-dialog-slide-description"
+      sx={{ p: 4 }}
     >
-      {/*  */}
-
-      <DialogTitle sx={{ mb: 3 }}>Make a call</DialogTitle>
-
-      {/* Content */}
-
+      <DialogTitle>{"Start New Conversation"}</DialogTitle>
+      <Stack p={2} sx={{ width: "100%" }}>
+        <Search>
+          <SearchIconWrapper>
+            <MagnifyingGlass color="#709CE6" />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder="Search..."
+            inputProps={{ "aria-label": "search" }}
+          />
+        </Search>
+      </Stack>
       <DialogContent>
-        <Stack spacing={3}>
-          <Stack sx={{ width: "100%" }}>
-            <Search>
-              <SearchIconWrapper>
-                <MagnifyingGlass color="#709CE6" />
-              </SearchIconWrapper>
-              <StyledInputBase placeholder="Search..." />
-            </Search>
+        <Stack sx={{ height: "100%" }}>
+          <Stack spacing={2.4}>
+            {CallList.map((el, idx) => {
+              return <CallElement key={idx} {...el} />;
+            })}
           </Stack>
-          {/* Call list */}
-          {MembersList.map((el) => (
-            <CallElement {...el} />
-          ))}
         </Stack>
       </DialogContent>
     </Dialog>

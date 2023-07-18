@@ -1,32 +1,37 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import * as Yup from "yup";
+// form
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link as RouterLink, useSearchParams } from "react-router-dom";
-import FormProvider from "../../components/hook-form/FormProvider";
+// @mui
 import {
-  Alert,
-  Button,
+  Stack,
   IconButton,
   InputAdornment,
-  Link,
-  Stack,
+  Button,
+  Alert,
 } from "@mui/material";
+// components
+import FormProvider from "../../components/hook-form/FormProvider";
 import { RHFTextField } from "../../components/hook-form";
 import { Eye, EyeSlash } from "phosphor-react";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { NewPassword } from "../../redux/slices/auth";
 
+// ----------------------------------------------------------------------
+
 const NewPasswordForm = () => {
-  const [queryParameters] = useSearchParams();
   const dispatch = useDispatch();
+  const [queryParameters] = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
+
   const NewPasswordSchema = Yup.object().shape({
     password: Yup.string()
       .min(6, "Password must be atleast 6 characters")
       .required("Password is required"),
     passwordConfirm: Yup.string()
-      .required("Password is required")
+      .required("Confirm password is required")
       .oneOf([Yup.ref("password"), null], "Password must match"),
   });
 
@@ -50,7 +55,7 @@ const NewPasswordForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      //submit data to backend
+      //   Send API Request
       dispatch(NewPassword({ ...data, token: queryParameters.get("token") }));
     } catch (error) {
       console.log(error);
@@ -61,6 +66,7 @@ const NewPasswordForm = () => {
       });
     }
   };
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
@@ -73,11 +79,10 @@ const NewPasswordForm = () => {
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
-              <InputAdornment>
+              <InputAdornment position="end">
                 <IconButton
-                  onClick={() => {
-                    setShowPassword(!showPassword);
-                  }}
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
                 >
                   {showPassword ? <Eye /> : <EyeSlash />}
                 </IconButton>
@@ -85,17 +90,17 @@ const NewPasswordForm = () => {
             ),
           }}
         />
+
         <RHFTextField
           name="passwordConfirm"
-          label="Confirm Password"
+          label="Confirm New Password"
           type={showPassword ? "text" : "password"}
           InputProps={{
             endAdornment: (
-              <InputAdornment>
+              <InputAdornment position="end">
                 <IconButton
-                  onClick={() => {
-                    setShowPassword(!showPassword);
-                  }}
+                  onClick={() => setShowPassword(!showPassword)}
+                  edge="end"
                 >
                   {showPassword ? <Eye /> : <EyeSlash />}
                 </IconButton>
@@ -105,11 +110,11 @@ const NewPasswordForm = () => {
         />
         <Button
           fullWidth
-          color="inherit"
           size="large"
           type="submit"
           variant="contained"
           sx={{
+            mt: 3,
             bgcolor: "text.primary",
             color: (theme) =>
               theme.palette.mode === "light" ? "common.white" : "grey.800",
@@ -120,7 +125,7 @@ const NewPasswordForm = () => {
             },
           }}
         >
-          Submit
+          Update Password
         </Button>
       </Stack>
     </FormProvider>

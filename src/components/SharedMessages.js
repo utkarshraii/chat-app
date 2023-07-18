@@ -14,7 +14,7 @@ import { UpdateSidebarType } from "../redux/slices/app";
 import { CaretLeft } from "phosphor-react";
 import "./global.css";
 import { faker } from "@faker-js/faker";
-import { SHARED_DOCS, SHARED_LINKS } from "../data";
+import { Shared_docs, Shared_links } from "../data";
 import { DocMsg, LinkMsg } from "./Conversation/MsgTypes";
 
 const SharedMessages = () => {
@@ -94,10 +94,10 @@ const SharedMessages = () => {
                   );
                 case 1:
                   //Links
-                  return SHARED_LINKS.map((el) => <LinkMsg el={el} />);
+                  return Shared_links.map((el) => <LinkMsg el={el} />);
                 case 2:
                   //Docs
-                  return SHARED_DOCS.map((el) => <DocMsg el={el} />);
+                  return Shared_docs.map((el) => <DocMsg el={el} />);
                 default:
                   break;
               }

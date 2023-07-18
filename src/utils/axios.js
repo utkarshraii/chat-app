@@ -1,13 +1,12 @@
 import axios from "axios";
-
-//
-
+// config
 import { BASE_URL } from "../config";
-//BASE_URL = http://localhost:3001
+
+// ----------------------------------------------------------------------
 
 const axiosInstance = axios.create({ baseURL: BASE_URL });
 
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => response,
   (error) =>
     Promise.reject(

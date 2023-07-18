@@ -16,7 +16,7 @@ import { MagnifyingGlass, Plus } from "phosphor-react";
 import { useTheme } from "@mui/material/styles";
 import "../../components/global.css";
 import { CallLogElement } from "../../components/CallElement";
-import { CallLogs } from "../../data";
+import { CallList } from "../../data";
 import StartCall from "../../sections/main/StartCall";
 const Call = () => {
   const theme = useTheme();
@@ -76,7 +76,7 @@ const Call = () => {
               <Stack direction="column">
                 <Stack spacing={2.4}>
                   {/* Call Log */}
-                  {CallLogs.map((el) => (
+                  {CallList.map((el) => (
                     <CallLogElement {...el} />
                   ))}
                 </Stack>

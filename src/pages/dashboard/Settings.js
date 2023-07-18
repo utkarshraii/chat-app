@@ -7,30 +7,48 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import "../../components/global.css";
-import { useTheme } from "@mui/material/styles";
+
 import {
-  Bell,
   CaretLeft,
-  Image,
-  Info,
-  Key,
-  Keyboard,
+  Bell,
   Lock,
-  Note,
+  Key,
   PencilCircle,
+  Image,
+  Note,
+  Keyboard,
+  Info,
 } from "phosphor-react";
+
+import { useTheme } from "@mui/material/styles";
 import { faker } from "@faker-js/faker";
+import ThemeDialog from "../../sections/settings/ThemeDialog";
 import Shortcuts from "../../sections/settings/Shortcuts";
+import "../../components/global.css";
+
 const Settings = () => {
   const theme = useTheme();
+
+  const [openTheme, setOpenTheme] = useState(false);
+
+  const handleOpenTheme = () => {
+    setOpenTheme(true);
+  };
+
+  const handleCloseTheme = () => {
+    setOpenTheme(false);
+  };
+
   const [openShortcuts, setOpenShortcuts] = useState(false);
+
   const handleOpenShortcuts = () => {
     setOpenShortcuts(true);
   };
+
   const handleCloseShortcuts = () => {
     setOpenShortcuts(false);
   };
+
   const list = [
     {
       key: 0,
@@ -54,8 +72,7 @@ const Settings = () => {
       key: 3,
       icon: <PencilCircle size={20} />,
       title: "Theme",
-      // onclick: handleOpenTheme,
-      onclick: () => {},
+      onclick: handleOpenTheme,
     },
     {
       key: 4,
@@ -74,7 +91,6 @@ const Settings = () => {
       icon: <Keyboard size={20} />,
       title: "Keyboard Shortcuts",
       onclick: handleOpenShortcuts,
-      //onclick: () => {},
     },
     {
       key: 7,
@@ -146,7 +162,21 @@ const Settings = () => {
           </Box>
         </div>
         {/* RIghtPanel */}
+        <Box
+          sx={{
+            height: "100%",
+            width: "calc(100vw - 420px )",
+            backgroundColor:
+              theme.palette.mode === "light"
+                ? "#FFF"
+                : theme.palette.background.paper,
+            borderBottom: "6px solid #0162C4",
+          }}
+        ></Box>
       </Stack>
+      {openTheme && (
+        <ThemeDialog open={openTheme} handleClose={handleCloseTheme} />
+      )}
       {openShortcuts && (
         <Shortcuts open={openShortcuts} handleClose={handleCloseShortcuts} />
       )}

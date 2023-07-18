@@ -1,25 +1,17 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import * as Yup from "yup";
-import { useForm } from "react-hook-form";
+// form
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link as RouterLink } from "react-router-dom";
 import FormProvider from "../../components/hook-form/FormProvider";
-import {
-  Alert,
-  Button,
-  IconButton,
-  InputAdornment,
-  Link,
-  Stack,
-} from "@mui/material";
-import { RHFTextField } from "../../components/hook-form";
-import { Eye, EyeSlash } from "phosphor-react";
+import { RHFTextField, RHFUploadAvatar } from "../../components/hook-form";
+import { Stack, Alert } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 const ProfileForm = () => {
   const ProfileSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     about: Yup.string().required("About is required"),
-
     avatarUrl: Yup.string().required("Avatar is required").nullable(true),
   });
 
@@ -45,23 +37,10 @@ const ProfileForm = () => {
 
   const values = watch();
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-      const newFile = Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      });
-      if (file) {
-        setValue = ("avatarUrl", newFile, { shouldValidate: true });
-      }
-    },
-    [setValue]
-  );
-
   const onSubmit = async (data) => {
     try {
-      //submit data to backend
-      console.log("data", data);
+      //   Send API request
+      console.log("DATA", data);
     } catch (error) {
       console.log(error);
       reset();
@@ -71,30 +50,54 @@ const ProfileForm = () => {
       });
     }
   };
+
+  const handleDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+
+      const newFile = Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      });
+
+      if (file) {
+        setValue("avatarUrl", newFile, { shouldValidate: true });
+      }
+    },
+    [setValue]
+  );
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <Stack spacing={3}>
-          {!!errors.afterSubmit && (
-            <Alert severity="error">{errors.afterSubmit.message}</Alert>
-          )}
-          <RHFTextField
-            name="name"
-            label="Name"
-            helperText={"This name is visible to your contacts"}
-          />
-          <RHFTextField
-            name="about"
-            label="About"
-            multiline
-            rows={4}
-            maxRows={5}
-          />
-        </Stack>
+      <Stack spacing={4}>
+        <RHFUploadAvatar
+          name="avatarUrl"
+          maxSize={3145728}
+          onDrop={handleDrop}
+        />
+
+        <RHFTextField
+          helperText={"This name is visible to your contacts"}
+          name="name"
+          label="Full Name"
+        />
+        <RHFTextField
+          multiline
+          rows={4}
+          maxRows={5}
+          name="about"
+          label="About"
+        />
+
         <Stack direction="row" justifyContent="end">
-          <Button color="primary" size="large" type="submit" variant="outlined">
+          <LoadingButton
+            color="primary"
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitSuccessful || isSubmitting}
+          >
             Save
-          </Button>
+          </LoadingButton>
         </Stack>
       </Stack>
     </FormProvider>

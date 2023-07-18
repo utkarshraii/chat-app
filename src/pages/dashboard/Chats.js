@@ -1,10 +1,11 @@
+import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
+  Divider,
   IconButton,
   Stack,
   Typography,
-  Button,
-  Divider,
 } from "@mui/material";
 import {
   ArchiveBox,
@@ -12,35 +13,44 @@ import {
   MagnifyingGlass,
   Users,
 } from "phosphor-react";
-import React, { useState } from "react";
-import { useTheme } from "@mui/material/styles";
-import { ChatList } from "../../data";
 import "../../components/global.css";
+import { useTheme } from "@mui/material/styles";
+import useResponsive from "../../hooks/useResponsive";
+import BottomNav from "../../layouts/dashboard/BottomNav";
+import { ChatList } from "../../data";
+import ChatElement from "../../components/ChatElement";
 import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
 } from "../../components/Search";
-import ChatElement from "../../components/ChatElement";
 import Friends from "../../sections/main/Friends";
-import { useEffect } from "react";
 import { socket } from "../../socket";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { FetchDirectConversations } from "../../redux/slices/conversation";
 
 const user_id = window.localStorage.getItem("user_id");
 
 const Chats = () => {
-  const [openDialog, setOpenDialog] = useState(false);
   const theme = useTheme();
+  const isDesktop = useResponsive("up", "md");
+
+  const dispatch = useDispatch();
 
   const { conversations } = useSelector(
     (state) => state.conversation.direct_chat
   );
+
   useEffect(() => {
     socket.emit("get_direct_conversations", { user_id }, (data) => {
-      // data => list of conversations
+      console.log(data); // this data is the list of conversations
+      // dispatch action
+
+      dispatch(FetchDirectConversations({ conversations: data }));
     });
   }, []);
+
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -48,36 +58,45 @@ const Chats = () => {
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
+
   return (
     <>
       <Box
         sx={{
           position: "relative",
-
-          width: 320,
+          height: "100%",
+          width: isDesktop ? 320 : "100vw",
           backgroundColor:
             theme.palette.mode === "light"
               ? "#F8FAFF"
-              : theme.palette.background.paper,
+              : theme.palette.background,
+
           boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
         }}
       >
-        <Stack p={3} spacing={2} sx={{ height: "100vh" }}>
+        {!isDesktop && (
+          // Bottom Nav
+          <BottomNav />
+        )}
+
+        <Stack p={3} spacing={2} sx={{ maxHeight: "100vh" }}>
           <Stack
-            direction="row"
             alignItems={"center"}
             justifyContent="space-between"
+            direction="row"
           >
             <Typography variant="h5">Chats</Typography>
+
             <Stack direction="row" alignItems="center" spacing={1}>
               <IconButton
                 onClick={() => {
                   handleOpenDialog();
                 }}
+                sx={{ width: "max-content" }}
               >
                 <Users />
               </IconButton>
-              <IconButton>
+              <IconButton sx={{ width: "max-content" }}>
                 <CircleDashed />
               </IconButton>
             </Stack>
@@ -87,7 +106,10 @@ const Chats = () => {
               <SearchIconWrapper>
                 <MagnifyingGlass color="#709CE6" />
               </SearchIconWrapper>
-              <StyledInputBase placeholder="Search..." />
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+              />
             </Search>
           </Stack>
           <Stack spacing={1}>

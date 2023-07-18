@@ -1,15 +1,15 @@
+import React from "react";
 import {
-  Button,
   Dialog,
+  Slide,
+  Button,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
-  Slide,
   Stack,
   Typography,
+  Grid,
 } from "@mui/material";
-import React from "react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

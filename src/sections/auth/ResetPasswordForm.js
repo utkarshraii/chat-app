@@ -1,14 +1,19 @@
-import React, { useState } from "react";
 import * as Yup from "yup";
-import { useForm } from "react-hook-form";
+// form
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+// components
 import FormProvider from "../../components/hook-form/FormProvider";
-import { Alert, Button, Stack } from "@mui/material";
 import { RHFTextField } from "../../components/hook-form";
+import { Alert, Button, Stack } from "@mui/material";
 import { ForgotPassword } from "../../redux/slices/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LoadingButton } from "@mui/lab";
+
+// ----------------------------------------------------------------------
 
 const ResetPasswordForm = () => {
+  const { isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const ResetPasswordSchema = Yup.object().shape({
     email: Yup.string()
@@ -34,7 +39,7 @@ const ResetPasswordForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      //submit data to backend
+      //   Send API Request
       dispatch(ForgotPassword(data));
     } catch (error) {
       console.log(error);
@@ -45,6 +50,7 @@ const ResetPasswordForm = () => {
       });
     }
   };
+
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
@@ -52,13 +58,15 @@ const ResetPasswordForm = () => {
           <Alert severity="error">{errors.afterSubmit.message}</Alert>
         )}
         <RHFTextField name="email" label="Email address" />
-        <Button
+
+        <LoadingButton
+          loading={isLoading}
           fullWidth
-          color="inherit"
           size="large"
           type="submit"
           variant="contained"
           sx={{
+            mt: 3,
             bgcolor: "text.primary",
             color: (theme) =>
               theme.palette.mode === "light" ? "common.white" : "grey.800",
@@ -70,7 +78,7 @@ const ResetPasswordForm = () => {
           }}
         >
           Send Request
-        </Button>
+        </LoadingButton>
       </Stack>
     </FormProvider>
   );
