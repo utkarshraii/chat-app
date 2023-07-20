@@ -2,9 +2,13 @@ import React, { useEffect } from "react";
 import { Stack } from "@mui/material";
 import { Navigate, Outlet } from "react-router-dom";
 import useResponsive from "../../hooks/useResponsive";
-import SideBar from "./SideBar";
+import SideNav from "./SideNav";
 import { useDispatch, useSelector } from "react-redux";
-import { SelectConversation, showSnackbar } from "../../redux/slices/app";
+import {
+  FetchUserProfile,
+  SelectConversation,
+  showSnackbar,
+} from "../../redux/slices/app";
 import { socket, connectSocket } from "../../socket";
 import {
   UpdateDirectConversation,
@@ -26,6 +30,7 @@ import {
 
 const DashboardLayout = () => {
   const isDesktop = useResponsive("up", "md");
+  const dispatch = useDispatch();
   const { user_id } = useSelector((state) => state.auth);
   const { open_audio_notification_dialog, open_audio_dialog } = useSelector(
     (state) => state.audioCall
@@ -37,7 +42,10 @@ const DashboardLayout = () => {
   const { conversations, current_conversation } = useSelector(
     (state) => state.conversation.direct_chat
   );
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(FetchUserProfile());
+  }, []);
 
   const handleCloseAudioDialog = () => {
     dispatch(UpdateAudioCallDialog({ state: false }));
@@ -63,9 +71,9 @@ const DashboardLayout = () => {
 
       socket.on("audio_call_notification", (data) => {
         // TODO => dispatch an action to add this in call_queue
-
         dispatch(PushToAudioCallQueue(data));
       });
+
       socket.on("video_call_notification", (data) => {
         // TODO => dispatch an action to add this in call_queue
         dispatch(PushToVideoCallQueue(data));
@@ -75,7 +83,7 @@ const DashboardLayout = () => {
         const message = data.message;
         console.log(current_conversation, data);
         // check if msg we got is from currently selected conversation
-        if (current_conversation.id === data.conversation_id) {
+        if (current_conversation?.id === data.conversation_id) {
           dispatch(
             AddDirectMessage({
               id: message._id,
@@ -93,7 +101,7 @@ const DashboardLayout = () => {
         console.log(data);
         // add / update to conversation list
         const existing_conversation = conversations.find(
-          (el) => el.id === data._id
+          (el) => el?.id === data._id
         );
         if (existing_conversation) {
           // update direct conversation
@@ -140,7 +148,7 @@ const DashboardLayout = () => {
   }, [isLoggedIn, socket]);
 
   if (!isLoggedIn) {
-    return <Navigate to="/auth/login" />;
+    return <Navigate to={"/auth/login"} />;
   }
 
   return (
@@ -148,7 +156,7 @@ const DashboardLayout = () => {
       <Stack direction="row">
         {isDesktop && (
           // SideBar
-          <SideBar />
+          <SideNav />
         )}
 
         <Outlet />

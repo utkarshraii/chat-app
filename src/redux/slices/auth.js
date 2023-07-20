@@ -247,7 +247,7 @@ export function VerifyEmail(formValues) {
           slice.actions.updateIsLoading({ isLoading: false, error: false })
         );
       })
-      .catch((error) => {
+      .catch(function (error) {
         console.log(error);
         dispatch(showSnackbar({ severity: "error", message: error.message }));
         dispatch(

@@ -6,41 +6,59 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import React, { useState } from "react";
+import { MagnifyingGlass, Phone } from "phosphor-react";
+import React, { useEffect, useState } from "react";
 import {
   Search,
   SearchIconWrapper,
   StyledInputBase,
 } from "../../components/Search";
-import { MagnifyingGlass, Plus } from "phosphor-react";
+
 import { useTheme } from "@mui/material/styles";
 import "../../components/global.css";
 import { CallLogElement } from "../../components/CallElement";
-import { CallList } from "../../data";
 import StartCall from "../../sections/Dashboard/StartCall";
+import { useDispatch, useSelector } from "react-redux";
+import { FetchCallLogs } from "../../redux/slices/app";
+
 const Call = () => {
-  const theme = useTheme();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(FetchCallLogs());
+  }, []);
+  const { call_logs } = useSelector((state) => state.app);
   const [openDialog, setOpenDialog] = useState(false);
+
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const theme = useTheme();
   return (
     <>
       <Stack direction="row" sx={{ width: "100%" }}>
         {/* Left */}
+
         <Box
           sx={{
             height: "100vh",
+            width: 340,
             backgroundColor: (theme) =>
               theme.palette.mode === "light"
                 ? "#F8FAFF"
                 : theme.palette.background,
-            width: 320,
+
             boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
           }}
         >
           <Stack p={3} spacing={2} sx={{ maxHeight: "100vh" }}>
-            <Stack>
+            <Stack
+              alignItems={"center"}
+              justifyContent="space-between"
+              direction="row"
+            >
               <Typography variant="h5">Call Log</Typography>
             </Stack>
 
@@ -49,23 +67,23 @@ const Call = () => {
                 <SearchIconWrapper>
                   <MagnifyingGlass color="#709CE6" />
                 </SearchIconWrapper>
-                <StyledInputBase placeholder="Search..." />
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                />
               </Search>
             </Stack>
+
             <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              direction={"row"}
             >
-              <Typography variant="subtitle2" component={Link}>
-                Start Conversation
+              <Typography variant="subtitle2" sx={{}} component={Link}>
+                Start a conversation
               </Typography>
-              <IconButton
-                onClick={() => {
-                  setOpenDialog(true);
-                }}
-              >
-                <Plus style={{ color: theme.palette.primary.main }} />
+              <IconButton onClick={handleOpenDialog}>
+                <Phone style={{ color: theme.palette.primary.main }} />
               </IconButton>
             </Stack>
             <Divider />
@@ -75,17 +93,14 @@ const Call = () => {
             >
               <Stack direction="column">
                 <Stack spacing={2.4}>
-                  {/* Call Log */}
-                  {CallList.map((el) => (
-                    <CallLogElement {...el} />
-                  ))}
+                  {call_logs.map((el, idx) => {
+                    return <CallLogElement key={idx} {...el} />;
+                  })}
                 </Stack>
               </Stack>
             </div>
           </Stack>
         </Box>
-        {/* Right */}
-        {/* TODO => Reuse conversation components */}
       </Stack>
       {openDialog && (
         <StartCall open={openDialog} handleClose={handleCloseDialog} />

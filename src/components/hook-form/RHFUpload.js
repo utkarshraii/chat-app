@@ -14,7 +14,7 @@ RHFUploadAvatar.propTypes = {
 
 // ----------------------------------------------------------------------
 
-export default function RHFUploadAvatar({ name, ...other }) {
+export function RHFUploadAvatar({ name, ...other }) {
   const { control } = useFormContext();
 
   return (

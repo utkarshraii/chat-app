@@ -34,7 +34,6 @@ const slice = createSlice({
     },
     resetAudioCallQueue(state, action) {
       state.call_queue = [];
-      state.open_notification_dialog = false;
       state.open_audio_notification_dialog = false;
       state.incoming = false;
     },
@@ -84,7 +83,7 @@ export const StartAudioCall = (id) => {
 
 export const PushToAudioCallQueue = (call) => {
   return async (dispatch, getState) => {
-    dispatch(slice.actions.pushToAudioCallQueue(call));
+    dispatch(slice.actions.pushToAudioCallQueue({ call, incoming: true }));
   };
 };
 

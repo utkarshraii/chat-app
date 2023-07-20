@@ -8,7 +8,7 @@ import MuiAlert from "@mui/material/Alert";
 import ThemeSettings from "./components/settings";
 import ThemeProvider from "./theme";
 import Router from "./routes";
-import { closeSnackbar } from "./redux/slices/app";
+import { closeSnackBar } from "./redux/slices/app";
 import { socket } from "./socket";
 
 const vertical = "bottom";
@@ -42,13 +42,13 @@ function App() {
           key={vertical + horizontal}
           onClose={() => {
             console.log("This is clicked");
-            dispatch(closeSnackbar());
+            dispatch(closeSnackBar());
           }}
         >
           <Alert
             onClose={() => {
               console.log("This is clicked");
-              dispatch(closeSnackbar());
+              dispatch(closeSnackBar());
             }}
             severity={severity}
             sx={{ width: "100%" }}

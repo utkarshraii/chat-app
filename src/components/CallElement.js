@@ -11,18 +11,46 @@ import { styled, useTheme } from "@mui/material/styles";
 import {
   ArrowDownLeft,
   ArrowUpRight,
-  Phone,
   VideoCamera,
+  Phone,
 } from "phosphor-react";
 import { useDispatch } from "react-redux";
 import { StartAudioCall } from "../redux/slices/audioCall";
 import { StartVideoCall } from "../redux/slices/videoCall";
-import { faker } from "@faker-js/faker";
-import StyledBadge from "./StyledBadge";
+import { AWS_S3_REGION, S3_BUCKET_NAME } from "../config";
 
 const StyledChatBox = styled(Box)(({ theme }) => ({
   "&:hover": {
     cursor: "pointer",
+  },
+}));
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
   },
 }));
 
@@ -53,10 +81,16 @@ const CallLogElement = ({ img, name, incoming, missed, online, id }) => {
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
               variant="dot"
             >
-              <Avatar alt={name} src={img} />
+              <Avatar
+                alt={name}
+                src={`https://${S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${img}`}
+              />
             </StyledBadge>
           ) : (
-            <Avatar alt={name} src={img} />
+            <Avatar
+              alt={name}
+              src={`https://${S3_BUCKET_NAME}.s3.${AWS_S3_REGION}.amazonaws.com/${img}`}
+            />
           )}
           <Stack spacing={0.3}>
             <Typography variant="subtitle2">{name}</Typography>

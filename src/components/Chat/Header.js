@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Avatar,
   Badge,
@@ -15,7 +15,6 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { CaretDown, MagnifyingGlass, Phone, VideoCamera } from "phosphor-react";
 import { faker } from "@faker-js/faker";
-import { useSearchParams } from "react-router-dom";
 import useResponsive from "../../hooks/useResponsive";
 import { ToggleSidebar } from "../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
@@ -121,14 +120,14 @@ const ChatHeader = () => {
                 variant="dot"
               >
                 <Avatar
-                  alt={faker.name.fullName()}
-                  src={faker.image.avatar()}
+                  alt={current_conversation?.name}
+                  src={current_conversation?.img}
                 />
               </StyledBadge>
             </Box>
             <Stack spacing={0.2}>
               <Typography variant="subtitle2">
-                {faker.name.fullName()}
+                {current_conversation?.name}
               </Typography>
               <Typography variant="caption">Online</Typography>
             </Stack>

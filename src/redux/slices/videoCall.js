@@ -33,6 +33,7 @@ const slice = createSlice({
       // Ideally queue should be managed on server side
     },
     resetVideoCallQueue(state, action) {
+      state.call_queue = [];
       state.open_video_notification_dialog = false;
       state.incoming = false;
     },

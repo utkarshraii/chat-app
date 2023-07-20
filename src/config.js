@@ -4,12 +4,12 @@ import { enUS, frFR, zhCN, viVN, arSD } from "@mui/material/locale";
 // routes
 import { PATH_DASHBOARD } from "./routes/paths";
 
-export const BASE_URL = "https://chamty.utkhost.online";
+export const BASE_URL = "https://api.chamty.utkhost.online/";
 
-export const S3_BUCKET_NAME = "";
-export const AWS_ACCESS_KEY = "";
-export const AWS_SECRET_ACCESS_KEY = "";
-export const AWS_S3_REGION = ""; // eg. ap-south-1
+export const S3_BUCKET_NAME = "utkarshrai28";
+export const AWS_ACCESS_KEY = "AKIASODBYS7Q4RUXG6U2";
+export const AWS_SECRET_ACCESS_KEY = "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";
+export const AWS_S3_REGION = "ap-south-1"; // eg. ap-south-1
 
 export const defaultSettings = {
   themeMode: "light",

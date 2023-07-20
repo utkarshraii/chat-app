@@ -1,8 +1,9 @@
-import React from "react";
-import { Link, Stack, Typography } from "@mui/material";
-import { CaretLeft } from "phosphor-react";
+import { Stack, Typography, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import React from "react";
+import { CaretLeft } from "phosphor-react";
 import NewPasswordForm from "../../sections/auth/NewPasswordForm";
+
 const NewPassword = () => {
   return (
     <>
@@ -10,12 +11,16 @@ const NewPassword = () => {
         <Typography variant="h3" paragraph>
           Reset Password
         </Typography>
+
         <Typography sx={{ color: "text.secondary", mb: 5 }}>
           Please set your new password
         </Typography>
       </Stack>
-      {/* new password form */}
+
+      {/* NewPasswordForm */}
+
       <NewPasswordForm />
+
       <Link
         component={RouterLink}
         to={"/auth/login"}
@@ -28,10 +33,11 @@ const NewPassword = () => {
           display: "inline-flex",
         }}
       >
-        <CaretLeft />
-        Return to Sign In
+        <CaretLeft size={24} />
+        Return to sign in
       </Link>
     </>
   );
 };
+
 export default NewPassword;

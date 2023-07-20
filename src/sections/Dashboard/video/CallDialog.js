@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import {
-  Avatar,
   Button,
   Dialog,
   DialogActions,
@@ -61,6 +60,7 @@ const CallDialog = ({ open, handleClose }) => {
       socket?.off("video_call_missed");
 
       // stop publishing local audio & video stream to remote users, call the stopPublishingStream method with the corresponding stream ID passed to the streamID parameter.
+
       zg.stopPublishingStream(audioStreamID);
       zg.stopPublishingStream(videoStreamID);
       // stop playing a remote audio
@@ -327,10 +327,6 @@ const CallDialog = ({ open, handleClose }) => {
         <DialogContent>
           <Stack direction="row" spacing={24} p={2}>
             <Stack>
-              <Avatar
-                sx={{ height: 100, width: 100 }}
-                src={faker.image.avatar()}
-              />
               <video
                 style={{ height: 200, width: 200 }}
                 id="local-video"

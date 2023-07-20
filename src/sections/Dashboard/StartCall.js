@@ -31,9 +31,9 @@ const StartCall = ({ open, handleClose }) => {
 
   console.log(CallList, all_users, "Call List Info");
 
-  const list = all_users?.map((el) => ({
-    id: el._id,
-    name: `${el.firstName} ${el.lastName}`,
+  const list = all_users.map((el) => ({
+    id: el?._id,
+    name: `${el?.firstName} ${el?.lastName}`,
     image: faker.image.avatar(),
   }));
 

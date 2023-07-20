@@ -103,53 +103,58 @@ const list = [
   },
 ];
 
-const Shortcuts = ({ open, handleClose }) => {
+const ShortcutDialog = ({ open, handleClose }) => {
   return (
     <>
       <Dialog
         fullWidth
         maxWidth="md"
         open={open}
-        onClose={handleClose}
         TransitionComponent={Transition}
         keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
         sx={{ p: 4 }}
       >
-        <DialogTitle>Keyboard Shortcuts</DialogTitle>
+        <DialogTitle>{"Keyboard Shortcuts"}</DialogTitle>
         <DialogContent sx={{ mt: 4 }}>
+          {/*  */}
           <Grid container spacing={1}>
-            {list.map(({ key, title, combination }) => (
-              <Grid key={key} container item xs={6}>
-                <Stack
-                  sx={{ width: "100%" }}
-                  justifyContent="space-between"
-                  spacing={3}
-                  direction="row"
-                  alignItems="center"
-                >
-                  <Typography variant="caption" sx={{ fontSize: 14 }}>
-                    {title}
-                  </Typography>
-                  <Stack spacing={2} direction="row">
-                    {combination.map((el) => {
-                      return (
-                        <Button
-                          disabled
-                          variant="contained"
-                          sx={{ color: "#212121" }}
-                        >
-                          {el}
-                        </Button>
-                      );
-                    })}
+            {list.map(({ key, title, combination }) => {
+              return (
+                <Grid item xs={6}>
+                  <Stack
+                    sx={{ width: "100%" }}
+                    justifyContent="space-between"
+                    key={key}
+                    spacing={3}
+                    direction={"row"}
+                    alignItems="center"
+                  >
+                    <Typography variant="caption" sx={{ fontSize: 14 }}>
+                      {title}
+                    </Typography>
+                    <Stack spacing={2} direction="row">
+                      {combination.map((el) => {
+                        return (
+                          <Button
+                            sx={{ color: "#212121" }}
+                            disabled
+                            variant="contained"
+                          >
+                            {el}
+                          </Button>
+                        );
+                      })}
+                    </Stack>
                   </Stack>
-                </Stack>
-              </Grid>
-            ))}
+                </Grid>
+              );
+            })}
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant={"contained"} onClick={handleClose}>
             Ok
           </Button>
         </DialogActions>
@@ -158,4 +163,4 @@ const Shortcuts = ({ open, handleClose }) => {
   );
 };
 
-export default Shortcuts;
+export default ShortcutDialog;

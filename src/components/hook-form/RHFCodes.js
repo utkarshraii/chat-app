@@ -1,11 +1,14 @@
-import { Stack, TextField } from "@mui/material";
-import React from "react";
 import { useRef } from "react";
-import { Controller, useFormContext } from "react-hook-form";
+// form
+import { useFormContext, Controller } from "react-hook-form";
+// @mui
+import { Stack, TextField } from "@mui/material";
 
-const RHFCodes = ({ keyName = "", inputs = [], ...other }) => {
+export default function RHFCodes({ keyName = "", inputs = [], ...other }) {
   const codesRef = useRef(null);
+
   const { control } = useFormContext();
+
   const handleChangeWithNextField = (event, handleChange) => {
     const { maxLength, value, name } = event.target;
 
@@ -13,18 +16,21 @@ const RHFCodes = ({ keyName = "", inputs = [], ...other }) => {
 
     const fieldIntIndex = Number(fieldIndex);
 
-    const nextField = document.querySelector(
+    const nextfield = document.querySelector(
       `input[name=${keyName}${fieldIntIndex + 1}]`
     );
 
     if (value.length > maxLength) {
       event.target.value = value[0];
     }
-    if (value.length > maxLength && fieldIndex < 6 && nextField !== null) {
-      nextField.focus();
+
+    if (value.length >= maxLength && fieldIntIndex < 6 && nextfield !== null) {
+      nextfield.focus();
     }
+
     handleChange(event);
   };
+
   return (
     <Stack direction="row" spacing={2} justifyContent="center" ref={codesRef}>
       {inputs.map((name, index) => (
@@ -56,10 +62,8 @@ const RHFCodes = ({ keyName = "", inputs = [], ...other }) => {
               {...other}
             />
           )}
-        ></Controller>
+        />
       ))}
     </Stack>
   );
-};
-
-export default RHFCodes;
+}

@@ -7,10 +7,10 @@ import {
   FetchUsers,
 } from "../../redux/slices/app";
 import {
-  FriendComponent,
-  FriendRequestComponent,
-  UserComponent,
-} from "../../components/Friends";
+  FriendElement,
+  FriendRequestElement,
+  UserElement,
+} from "../../components/UserElement";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -28,7 +28,7 @@ const UsersList = () => {
   return (
     <>
       {users.map((el, idx) => {
-        return <UserComponent key={idx} {...el} />;
+        return <UserElement key={idx} {...el} />;
       })}
     </>
   );
@@ -46,13 +46,13 @@ const FriendsList = () => {
   return (
     <>
       {friends.map((el, idx) => {
-        return <FriendComponent key={idx} {...el} />;
+        return <FriendElement key={idx} {...el} />;
       })}
     </>
   );
 };
 
-const FriendRequestList = () => {
+const RequestsList = () => {
   const dispatch = useDispatch();
 
   const { friendRequests } = useSelector((state) => state.app);
@@ -64,7 +64,7 @@ const FriendRequestList = () => {
   return (
     <>
       {friendRequests.map((el, idx) => {
-        return <FriendRequestComponent key={idx} {...el.sender} id={el._id} />;
+        return <FriendRequestElement key={idx} {...el.sender} id={el._id} />;
       })}
     </>
   );
@@ -108,7 +108,7 @@ const Friends = ({ open, handleClose }) => {
                   return <FriendsList />;
 
                 case 2: // display request in this list
-                  return <FriendRequestList />;
+                  return <RequestsList />;
 
                 default:
                   break;

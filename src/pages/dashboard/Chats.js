@@ -71,7 +71,7 @@ const Chats = () => {
               ? "#F8FAFF"
               : theme.palette.background,
 
-          boxShadow: "0px 0px 2px rgba(0,0,0,0.25)",
+          boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
         }}
       >
         {!isDesktop && (
@@ -87,7 +87,7 @@ const Chats = () => {
           >
             <Typography variant="h5">Chats</Typography>
 
-            <Stack direction="row" alignItems="center" spacing={1}>
+            <Stack direction={"row"} alignItems="center" spacing={1}>
               <IconButton
                 onClick={() => {
                   handleOpenDialog();
@@ -113,9 +113,9 @@ const Chats = () => {
             </Search>
           </Stack>
           <Stack spacing={1}>
-            <Stack direction="row" alignItems={"center"} spacing={1.5}>
+            <Stack direction={"row"} spacing={1.5} alignItems="center">
               <ArchiveBox size={24} />
-              <Button>Archive</Button>
+              <Button variant="text">Archive</Button>
             </Stack>
             <Divider />
           </Stack>
@@ -124,16 +124,18 @@ const Chats = () => {
               <Stack spacing={2.4}>
                 {/* <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                   Pinned
-                </Typography>
-                {ChatList.filter((el) => el.pinned).map((el) => {
+              </Typography >*/}
+                {/* Chat List */}
+                {/* ChatList.filter((el) => el.pinned).map((el) => {
                   return <ChatElement {...el} />;
                 })} */}
                 <Typography variant="subtitle2" sx={{ color: "#676767" }}>
                   All Chats
                 </Typography>
+                {/* Chat List */}
                 {conversations
                   .filter((el) => !el.pinned)
-                  .map((el) => {
+                  .map((el, idx) => {
                     return <ChatElement {...el} />;
                   })}
               </Stack>
@@ -141,7 +143,6 @@ const Chats = () => {
           </div>
         </Stack>
       </Box>
-
       {openDialog && (
         <Friends open={openDialog} handleClose={handleCloseDialog} />
       )}
