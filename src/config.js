@@ -4,7 +4,7 @@ import { enUS, frFR, zhCN, viVN, arSD } from "@mui/material/locale";
 // routes
 import { PATH_DASHBOARD } from "./routes/paths";
 
-export const BASE_URL = "https://api.chamty.utkhost.online/";
+export const BASE_URL = "https://chamty.utkhost.online/";
 
 export const S3_BUCKET_NAME = "utkarshrai28";
 export const AWS_ACCESS_KEY = "AKIASODBYS7Q4RUXG6U2";
