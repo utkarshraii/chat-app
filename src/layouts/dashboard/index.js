@@ -11,19 +11,40 @@ import {
   AddDirectConversation,
   AddDirectMessage,
 } from "../../redux/slices/conversation";
-import CallNotification from "../../sections/main/CallNotification";
-import { PushToAudioCallQueue } from "../../redux/slices/audioCall";
+import AudioCallNotification from "../../sections/Dashboard/Audio/CallNotification";
+import VideoCallNotification from "../../sections/Dashboard/video/CallNotification";
+import {
+  PushToAudioCallQueue,
+  UpdateAudioCallDialog,
+} from "../../redux/slices/audioCall";
+import AudioCallDialog from "../../sections/Dashboard/Audio/CallDialog";
+import VideoCallDialog from "../../sections/Dashboard/video/CallDialog";
+import {
+  PushToVideoCallQueue,
+  UpdateVideoCallDialog,
+} from "../../redux/slices/videoCall";
 
 const DashboardLayout = () => {
   const isDesktop = useResponsive("up", "md");
-  const { open_notification_dialog } = useSelector((state) => state.audioCall);
+  const { user_id } = useSelector((state) => state.auth);
+  const { open_audio_notification_dialog, open_audio_dialog } = useSelector(
+    (state) => state.audioCall
+  );
+  const { open_video_notification_dialog, open_video_dialog } = useSelector(
+    (state) => state.videoCall
+  );
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { conversations, current_conversation } = useSelector(
     (state) => state.conversation.direct_chat
   );
   const dispatch = useDispatch();
 
-  const user_id = window.localStorage.getItem("user_id");
+  const handleCloseAudioDialog = () => {
+    dispatch(UpdateAudioCallDialog({ state: false }));
+  };
+  const handleCloseVideoDialog = () => {
+    dispatch(UpdateVideoCallDialog({ state: false }));
+  };
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -44,6 +65,10 @@ const DashboardLayout = () => {
         // TODO => dispatch an action to add this in call_queue
 
         dispatch(PushToAudioCallQueue(data));
+      });
+      socket.on("video_call_notification", (data) => {
+        // TODO => dispatch an action to add this in call_queue
+        dispatch(PushToVideoCallQueue(data));
       });
 
       socket.on("new_message", (data) => {
@@ -128,8 +153,23 @@ const DashboardLayout = () => {
 
         <Outlet />
       </Stack>
-      {open_notification_dialog && (
-        <CallNotification open={open_notification_dialog} />
+      {open_audio_notification_dialog && (
+        <AudioCallNotification open={open_audio_notification_dialog} />
+      )}
+      {open_audio_dialog && (
+        <AudioCallDialog
+          open={open_audio_dialog}
+          handleClose={handleCloseAudioDialog}
+        />
+      )}
+      {open_video_notification_dialog && (
+        <VideoCallNotification open={open_video_notification_dialog} />
+      )}
+      {open_video_dialog && (
+        <VideoCallDialog
+          open={open_video_dialog}
+          handleClose={handleCloseVideoDialog}
+        />
       )}
     </>
   );

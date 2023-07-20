@@ -3,9 +3,9 @@ import * as Yup from "yup";
 // form
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import FormProvider from "../../components/hook-form/FormProvider";
-import { RHFTextField, RHFUploadAvatar } from "../../components/hook-form";
-import { Stack, Alert } from "@mui/material";
+import FormProvider from "../../../components/hook-form/FormProvider";
+import { RHFTextField, RHFUploadAvatar } from "../../../components/hook-form";
+import { Stack } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 const ProfileForm = () => {
@@ -29,10 +29,9 @@ const ProfileForm = () => {
     reset,
     watch,
     control,
-    setError,
     setValue,
     handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { isSubmitting, isSubmitSuccessful },
   } = methods;
 
   const values = watch();
@@ -42,12 +41,7 @@ const ProfileForm = () => {
       //   Send API request
       console.log("DATA", data);
     } catch (error) {
-      console.log(error);
-      reset();
-      setError("afterSubmit", {
-        ...error,
-        message: error.message,
-      });
+      console.error(error);
     }
   };
 
@@ -88,7 +82,7 @@ const ProfileForm = () => {
           label="About"
         />
 
-        <Stack direction="row" justifyContent="end">
+        <Stack direction={"row"} justifyContent="end">
           <LoadingButton
             color="primary"
             size="large"

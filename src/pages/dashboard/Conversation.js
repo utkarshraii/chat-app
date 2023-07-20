@@ -13,7 +13,7 @@ import {
   ReplyMsg,
   TextMsg,
   Timeline,
-} from "../../sections/main/Conversation";
+} from "../../sections/Dashboard/Conversation";
 import { useDispatch, useSelector } from "react-redux";
 import {
   FetchCurrentMessages,

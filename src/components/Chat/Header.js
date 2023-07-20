@@ -19,8 +19,8 @@ import { useSearchParams } from "react-router-dom";
 import useResponsive from "../../hooks/useResponsive";
 import { ToggleSidebar } from "../../redux/slices/app";
 import { useDispatch, useSelector } from "react-redux";
-import CallDialog from "../../sections/main/CallDialog";
-import { UpdateAudioCallDialog } from "../../redux/slices/audioCall";
+import { StartAudioCall } from "../../redux/slices/audioCall";
+import { StartVideoCall } from "../../redux/slices/videoCall";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -71,7 +71,9 @@ const ChatHeader = () => {
   const isMobile = useResponsive("between", "md", "xs", "sm");
   const theme = useTheme();
 
-  const { open_audio_dialog } = useSelector((state) => state.audioCall);
+  const { current_conversation } = useSelector(
+    (state) => state.conversation.direct_chat
+  );
 
   const [conversationMenuAnchorEl, setConversationMenuAnchorEl] =
     React.useState(null);
@@ -81,14 +83,6 @@ const ChatHeader = () => {
   };
   const handleCloseConversationMenu = () => {
     setConversationMenuAnchorEl(null);
-  };
-
-  const handleOpenAudioDialog = () => {
-    dispatch(UpdateAudioCallDialog({ state: true }));
-  };
-
-  const handleCloseAudioDialog = () => {
-    dispatch(UpdateAudioCallDialog({ state: false }));
   };
 
   return (
@@ -144,13 +138,16 @@ const ChatHeader = () => {
             alignItems="center"
             spacing={isMobile ? 1 : 3}
           >
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                dispatch(StartVideoCall(current_conversation.user_id));
+              }}
+            >
               <VideoCamera />
             </IconButton>
             <IconButton
               onClick={() => {
-                // open call Dialog Box
-                handleOpenAudioDialog();
+                dispatch(StartAudioCall(current_conversation.user_id));
               }}
             >
               <Phone />
@@ -213,13 +210,6 @@ const ChatHeader = () => {
           </Stack>
         </Stack>
       </Box>
-
-      {open_audio_dialog && (
-        <CallDialog
-          open={open_audio_dialog}
-          handleClose={handleCloseAudioDialog}
-        />
-      )}
     </>
   );
 };

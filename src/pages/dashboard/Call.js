@@ -17,7 +17,7 @@ import { useTheme } from "@mui/material/styles";
 import "../../components/global.css";
 import { CallLogElement } from "../../components/CallElement";
 import { CallList } from "../../data";
-import StartCall from "../../sections/main/StartCall";
+import StartCall from "../../sections/Dashboard/StartCall";
 const Call = () => {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);

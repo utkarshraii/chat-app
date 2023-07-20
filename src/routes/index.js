@@ -62,7 +62,7 @@ const Conversation = Loadable(
 const Chats = Loadable(lazy(() => import("../pages/dashboard/Chats")));
 const GroupPage = Loadable(lazy(() => import("../pages/dashboard/Group")));
 const CallPage = Loadable(lazy(() => import("../pages/dashboard/Call")));
-const Contact = Loadable(lazy(() => import("../sections/main/Contact")));
+const Contact = Loadable(lazy(() => import("../sections/Dashboard/Contact")));
 const Page404 = Loadable(lazy(() => import("../pages/Page404")));
 
 const LoginPage = Loadable(lazy(() => import("../pages/auth/Login")));
@@ -77,4 +77,6 @@ const NewPasswordPage = Loadable(
 
 // Settings
 const Settings = Loadable(lazy(() => import("../pages/dashboard/Settings")));
-const ProfilePage = Loadable(lazy(() => import("../pages/dashboard/Profile")));
+const ProfilePage = Loadable(
+  lazy(() => import("../pages/dashboard/Settings/Profile"))
+);

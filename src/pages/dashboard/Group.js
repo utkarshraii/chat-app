@@ -17,7 +17,7 @@ import { useTheme } from "@mui/material/styles";
 import "../../components/global.css";
 import { ChatList } from "../../data";
 import ChatElement from "../../components/ChatElement";
-import CreateGroup from "../../sections/main/CreateGroup";
+import CreateGroup from "../../sections/Dashboard/CreateGroup";
 const Group = () => {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState(false);

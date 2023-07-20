@@ -3,47 +3,45 @@ import { socket } from "../../socket";
 import axios from "../../utils/axios";
 
 const initialState = {
-  open_audio_dialog: false,
-  open_audio_notification_dialog: false,
+  open_video_dialog: false,
+  open_video_notification_dialog: false,
   call_queue: [], // can have max 1 call at any point of time
   incoming: false,
 };
 
 const slice = createSlice({
-  name: "audioCall",
+  name: "videoCall",
   initialState,
   reducers: {
-    pushToAudioCallQueue(state, action) {
-      // check audio_call_queue in redux store
+    pushToVideoCallQueue(state, action) {
+      // check video_call_queue in redux store
 
       if (state.call_queue.length === 0) {
         state.call_queue.push(action.payload.call);
         if (action.payload.incoming) {
-          state.open_audio_notification_dialog = true; // this will open up the call dialog
+          state.open_video_notification_dialog = true; // this will open up the call dialog
           state.incoming = true;
         } else {
-          state.open_audio_dialog = true;
+          state.open_video_dialog = true;
           state.incoming = false;
         }
       } else {
         // if queue is not empty then emit user_is_busy => in turn server will send this event to sender of call
-        socket.emit("user_is_busy_audio_call", { ...action.payload });
+        socket.emit("user_is_busy_video_call", { ...action.payload });
       }
 
       // Ideally queue should be managed on server side
     },
-    resetAudioCallQueue(state, action) {
-      state.call_queue = [];
-      state.open_notification_dialog = false;
-      state.open_audio_notification_dialog = false;
+    resetVideoCallQueue(state, action) {
+      state.open_video_notification_dialog = false;
       state.incoming = false;
     },
     closeNotificationDialog(state, action) {
-      state.open_audio_notification_dialog = false;
+      state.open_video_notification_dialog = false;
     },
     updateCallDialog(state, action) {
-      state.open_audio_dialog = action.payload.state;
-      state.open_audio_notification_dialog = false;
+      state.open_video_dialog = action.payload.state;
+      state.open_video_notification_dialog = false;
     },
   },
 });
@@ -53,12 +51,12 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export const StartAudioCall = (id) => {
+export const StartVideoCall = (id) => {
   return async (dispatch, getState) => {
-    dispatch(slice.actions.resetAudioCallQueue());
+    dispatch(slice.actions.resetVideoCallQueue());
     axios
       .post(
-        "/user/start-audio-call",
+        "/user/start-video-call",
         { id },
         {
           headers: {
@@ -70,7 +68,7 @@ export const StartAudioCall = (id) => {
       .then((response) => {
         console.log(response);
         dispatch(
-          slice.actions.pushToAudioCallQueue({
+          slice.actions.pushToVideoCallQueue({
             call: response.data.data,
             incoming: false,
           })
@@ -82,25 +80,25 @@ export const StartAudioCall = (id) => {
   };
 };
 
-export const PushToAudioCallQueue = (call) => {
+export const PushToVideoCallQueue = (call) => {
   return async (dispatch, getState) => {
-    dispatch(slice.actions.pushToAudioCallQueue(call));
+    dispatch(slice.actions.pushToVideoCallQueue({ call, incoming: true }));
   };
 };
 
-export const ResetAudioCallQueue = () => {
+export const ResetVideoCallQueue = () => {
   return async (dispatch, getState) => {
-    dispatch(slice.actions.resetAudioCallQueue());
+    dispatch(slice.actions.resetVideoCallQueue());
   };
 };
 
-export const CloseAudioNotificationDialog = () => {
+export const CloseVideoNotificationDialog = () => {
   return async (dispatch, getState) => {
     dispatch(slice.actions.closeNotificationDialog());
   };
 };
 
-export const UpdateAudioCallDialog = ({ state }) => {
+export const UpdateVideoCallDialog = ({ state }) => {
   return async (dispatch, getState) => {
     dispatch(slice.actions.updateCallDialog({ state }));
   };
