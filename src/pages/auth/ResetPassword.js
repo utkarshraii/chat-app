@@ -4,7 +4,7 @@ import React from "react";
 import { CaretLeft } from "phosphor-react";
 import AuthResetPasswordForm from "../../sections/auth/ResetPasswordForm";
 
-const ResetPassword = () => {
+export default function ResetPassword() {
   return (
     <>
       <Stack spacing={2} sx={{ mb: 5, position: "relative" }}>
@@ -38,4 +38,4 @@ const ResetPassword = () => {
       </Link>
     </>
   );
-};
+}

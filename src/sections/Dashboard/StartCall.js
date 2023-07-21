@@ -31,7 +31,7 @@ const StartCall = ({ open, handleClose }) => {
 
   console.log(CallList, all_users, "Call List Info");
 
-  const list = all_users.map((el) => ({
+  const list = all_users?.map((el) => ({
     id: el?._id,
     name: `${el?.firstName} ${el?.lastName}`,
     image: faker.image.avatar(),
@@ -63,7 +63,7 @@ const StartCall = ({ open, handleClose }) => {
       <DialogContent>
         <Stack sx={{ height: "100%" }}>
           <Stack spacing={2.4}>
-            {list.map((el, idx) => {
+            {list?.map((el, idx) => {
               return (
                 <CallElement key={idx} {...el} handleClose={handleClose} />
               );

@@ -12,7 +12,7 @@ import { LoadingButton } from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
-const ResetPasswordForm = () => {
+const AuthResetPasswordForm = () => {
   const { isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const ResetPasswordSchema = Yup.object().shape({
@@ -84,4 +84,4 @@ const ResetPasswordForm = () => {
   );
 };
 
-export default ResetPasswordForm;
+export default AuthResetPasswordForm;

@@ -25,9 +25,10 @@ const GeneralApp = () => {
         <Box
           sx={{
             height: "100%",
-            width: sideBar.open
-              ? `calc(100vw - 740px )`
-              : "calc(100vw - 420px )",
+            width:
+              sideBar && sideBar.open
+                ? `calc(100vw - 740px )`
+                : "calc(100vw - 420px )",
             backgroundColor:
               theme.palette.mode === "light"
                 ? "#FFF"
@@ -64,7 +65,8 @@ const GeneralApp = () => {
             </Stack>
           )}
         </Box>
-        {sideBar.open &&
+        {sideBar &&
+          sideBar.open &&
           (() => {
             switch (sideBar.type) {
               case "CONTACT":

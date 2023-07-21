@@ -93,7 +93,7 @@ const Call = () => {
             >
               <Stack direction="column">
                 <Stack spacing={2.4}>
-                  {call_logs.map((el, idx) => {
+                  {call_logs?.map((el, idx) => {
                     return <CallLogElement key={idx} {...el} />;
                   })}
                 </Stack>

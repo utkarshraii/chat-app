@@ -218,7 +218,7 @@ const Footer = () => {
                 position: "fixed",
                 display: openPicker ? "inline" : "none",
                 bottom: 81,
-                right: isMobile ? 20 : sideBar.open ? 420 : 100,
+                right: isMobile ? 20 : sideBar && sideBar.open ? 420 : 100,
               }}
             >
               <Picker
@@ -257,7 +257,7 @@ const Footer = () => {
                     message: linkify(value),
                     conversation_id: room_id,
                     from: user_id,
-                    to: current_conversation.user_id,
+                    to: current_conversation?.user_id,
                     type: containsUrl(value) ? "Link" : "Text",
                   });
                 }}
