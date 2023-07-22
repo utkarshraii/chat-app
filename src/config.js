@@ -6,7 +6,7 @@ import { PATH_DASHBOARD } from "./routes/paths";
 
 //export const BASE_URL = "http://localhost:3001";
 
-export const BASE_URL = "https://chatapp-api-9vy3.onrender.com";
+export const BASE_URL = "https://utkchatapp-api.vercel.app";
 
 export const S3_BUCKET_NAME = "utkarshrai28";
 export const AWS_ACCESS_KEY = "AKIASODBYS7Q4RUXG6U2";
